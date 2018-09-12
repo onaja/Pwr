@@ -13,7 +13,7 @@ $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
 $_msg = $arrJson['events'][0]['message']['text'];
 
 
-$api_key="flAOZDL2-6BNiSZ-XqZc0FAKrYEo2dc3";
+$api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
 $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/yes?apiKey='.$api_key.'';
 $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/yes?apiKey='.$api_key.'&q={"user":"'.$_msg.'"}');
 $data = json_decode($json);
