@@ -20,7 +20,7 @@ $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/
 $data = json_decode($json);
 $isData=sizeof($data);
 
-if (strpos($_msg, 'สอนบอท') !== false) {
+if (strpos($_msg, 'สอนบอทจ้า') !== false) {
   if (strpos($_msg, 'สอนบอท') !== false) {
     $x_tra = str_replace("สอนบอท","", $_msg);
     $pieces = explode("|", $x_tra);
