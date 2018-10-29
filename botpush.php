@@ -215,4 +215,4 @@ if(!is_null($events)){
                     );
                     break;                                                                                                                          
                 default:
-                    $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                    $textReplyMessage = "SAY HI";
