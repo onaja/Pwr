@@ -69,9 +69,9 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
     $id = $events['events'][0]['source']['userId'];   
     //เชื่อมต่อ mlab
     $strUrl = "https://api.line.me/v2/bot/message/reply";
-    $api_key="7vVKdrk-Rg7qp8C5KFUrkQRWmAJaazgQ";
-    $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
+    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData = sizeof($data);
              
