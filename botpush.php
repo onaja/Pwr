@@ -40,6 +40,27 @@
            'content' => $newData
        )
     );
+             
+             
+          array(
+    new ImagemapMessageActionBuilder(
+        'test image map', // แบบข้อความ ข้อความนี้จะแสดงที่ฝั่งผู้ใช้เมื่อกดพื้นที่นี้
+        new AreaBuilder(0,0,520,699) // พื้นทีส่วนที่แรกที่อธิบายด้านบน
+        ),
+    new ImagemapUriActionBuilder(
+        'http://www.ninenik.com', // แบบ url เมื่อกดจะลิ้งค์ไป url นี้ใน LINE App
+        new AreaBuilder(520,0,520,699) // พื้นทีส่วนที่สองที่อธิบายด้านบน
+        )   
+     ));        
+             
+             
+             
+             
+             
+             
+             
+             
+             
     $context = stream_context_create($opts);
     $returnValue = file_get_contents($url,false,$context);
     $arrayPostData['to'] = $id;
