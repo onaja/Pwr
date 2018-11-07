@@ -115,7 +115,7 @@ $response = $bot->replyMessage($replyToken,$textMessageBuilder);
 
 
 
-/*if(!is_null($events)){
+if(!is_null($events)){
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     $replyToken = $events['events'][0]['replyToken'];
 }
@@ -128,7 +128,7 @@ if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
 }
- */
+ 
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
