@@ -93,7 +93,28 @@ if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
 }
-
+    
+           if (strpos($message, 'สอนบอท') !== false) {
+                 if (strpos($message, 'สอนบอท') !== false) {
+                    $x_tra = str_replace("สอนบอท","", $message);
+                    $pieces = explode("|", $x_tra);
+                    $_user=str_replace("[","",$pieces[0]);
+                    $_system=str_replace("]","",$pieces[1]);
+                     //Post New Data
+                    $newData = json_encode(
+                      array(
+                        'user' => $_user,
+                        'system'=> $_system
+                      )
+                    );
+                $opts = array(
+                   'http' => array(
+                   'method' => "POST",
+                   'header' => "Content-type: application/json",
+                   'content' => $newData
+               )
+            );
+                  
 $events = json_decode($content, true);
 if(!is_null($events)){
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
@@ -114,6 +135,30 @@ if(!is_null($events)){
                     break;                                      
             }
             break;
+         case "tm":
+                    $replyData = new TemplateMessageBuilder('Confirm Template',
+                        new ConfirmTemplateBuilder(
+                                'กรุณาเลือกว่าข้อความที่สอนบอท ใช่ หรือ ไม่',
+                                array(
+                                    new MessageTemplateActionBuilder(
+                                        'Yes',
+                                        'Text Yes'
+                                    ),
+                                    new MessageTemplateActionBuilder(
+                                        'No',
+                                        'Text NO'
+                                    )
+                                )
+                        )
+                    );
+                    break;                                                                                                                          
+                default:
+                    $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                    $replyData = new TextMessageBuilder($textReplyMessage);         
+                    break;                                      
+            }
+            break
+      
         default:
             $textReplyMessage = json_encode($events);
             break;  
