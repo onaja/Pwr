@@ -57,7 +57,35 @@ $content = file_get_contents('php://input');
  
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
-if(!is_null($events)){
+
+   $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
+    
+    $content = file_get_contents('php://input');
+    $arrayJson = json_decode($content, true);
+    
+    $arrayHeader = array();
+    $arrayHeader[] = "Content-Type: application/json";
+    $arrayHeader[] = "Authorization: Bearer {$accessToken}";
+    
+    //รับข้อความจากผู้ใช้
+    $message = $arrayJson['events'][0]['message']['text'];
+    //รับ id ของผู้ใช้
+    $id = $arrayJson['events'][0]['source']['userId'];    
+    $strUrl = "https://api.line.me/v2/bot/message/reply";
+    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
+    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $data = json_decode($json);
+    $isData=sizeof($data);
+    $count = 0;
+
+
+
+
+
+
+
+/*if(!is_null($events)){
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     $replyToken = $events['events'][0]['replyToken'];
 }
@@ -70,7 +98,7 @@ if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
 }
- 
+ */
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
