@@ -112,9 +112,11 @@ if(!is_null($events)){
             switch ($message) {
                 case "A":
                     $textReplyMessage = "คุณพิมพ์ A";
+                    $replyData = new TextMessageBuilder($textReplyMessage);
                     break;
                 case "B":
                     $textReplyMessage = "คุณพิมพ์ B";
+                    $replyData = new TextMessageBuilder($textReplyMessage);
                     break;                                      
                case "tm":
                     $replyData = new TemplateMessageBuilder('Confirm Template',
@@ -145,11 +147,8 @@ if(!is_null($events)){
             break;  
     }
 }
-// ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-$textMessageBuilder = new TextMessageBuilder($textReplyMessage);
- 
-//l ส่วนของคำสั่งตอบกลับข้อความ
-$response = $bot->replyMessage($replyToken,$textMessageBuilder);
+
+$response = $bot->replyMessage($replyToken,$replyData);
 
 
 
