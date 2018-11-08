@@ -61,7 +61,7 @@ $events = json_decode($content, true);
    $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     
     $content = file_get_contents('php://input');
-    $arrayJson = json_decode($content, true);
+    $events = json_decode($content, true);
     
     $arrayHeader = array();
     $arrayHeader[] = "Content-Type: application/json";
@@ -69,6 +69,7 @@ $events = json_decode($content, true);
     
     //รับข้อความจากผู้ใช้
     $message = $arrayJson['events'][0]['message']['text'];
+    $replyToken = $events['events'][0]['replyToken'];
     //รับ id ของผู้ใช้
     $id = $arrayJson['events'][0]['source']['userId'];    
     $strUrl = "https://api.line.me/v2/bot/message/reply";
@@ -79,21 +80,7 @@ $events = json_decode($content, true);
     $isData=sizeof($data);
     $count = 0;
 
-// แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-if(!is_null($events)){
-    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-    $replyToken = $events['events'][0]['replyToken'];
-}
-// ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-$textMessageBuilder = new TextMessageBuilder(json_encode($events));
  
-//l ส่วนของคำสั่งตอบกลับข้อความ
-$response = $bot->replyMessage($replyToken,$textMessageBuilder);
-if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-    return;
-}
-    
            if (strpos($message, 'สอนบอท') !== false) {
                  if (strpos($message, 'สอนบอท') !== false) {
                     $x_tra = str_replace("สอนบอท","", $message);
@@ -115,7 +102,6 @@ if ($response->isSucceeded()) {
                )
             );
                   
-$events = json_decode($content, true);
 if(!is_null($events)){
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     $replyToken = $events['events'][0]['replyToken'];
@@ -123,19 +109,14 @@ if(!is_null($events)){
     $userMessage = $events['events'][0]['message']['text'];
     switch ($typeMessage){
         case 'text':
-            switch ($userMessage) {
+            switch ($message) {
                 case "A":
                     $textReplyMessage = "คุณพิมพ์ A";
                     break;
                 case "B":
                     $textReplyMessage = "คุณพิมพ์ B";
-                    break;
-                default:
-                    $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
                     break;                                      
-            }
-            break;
-         case "tm":
+               case "tm":
                     $replyData = new TemplateMessageBuilder('Confirm Template',
                         new ConfirmTemplateBuilder(
                                 'กรุณาเลือกว่าข้อความที่สอนบอท ใช่ หรือ ไม่',
