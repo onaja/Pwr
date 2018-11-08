@@ -69,6 +69,7 @@ $events = json_decode($content, true);
     
     //รับข้อความจากผู้ใช้
     $message = $arrayJson['events'][0]['message']['text'];
+    $typeMessage = $events['events'][0]['message']['type'];
     $replyToken = $events['events'][0]['replyToken'];
     //รับ id ของผู้ใช้
     $id = $arrayJson['events'][0]['source']['userId'];    
@@ -102,11 +103,6 @@ $events = json_decode($content, true);
                )
             );
                   
-if(!is_null($events)){
-    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-    $replyToken = $events['events'][0]['replyToken'];
-    $typeMessage = $events['events'][0]['message']['type'];
-    $userMessage = $events['events'][0]['message']['text'];
     switch ($typeMessage){
         case 'text':
             switch ($message) {
@@ -146,7 +142,7 @@ if(!is_null($events)){
             $textReplyMessage = json_encode($events);
             break;  
     }
-}
+
 
 $response = $bot->replyMessage($replyToken,$replyData);
 
