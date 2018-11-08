@@ -107,23 +107,35 @@ $content = file_get_contents('php://input');
 			}
 		}
                   
-    switch ($typeMessage){
+   switch ($typeMessage){
         case 'text':
             switch ($message) {
                 case "A":
                     $textReplyMessage = "คุณพิมพ์ A";
-                    $replyData = new TextMessageBuilder($textReplyMessage);
+		    $textMesage = new TextMessageBuilder($textReplyMessage)
+			    
+			$multiMessage =     new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);
+                        $replyData = $multiMessage;            
                     break;
                 case "B":
                     $textReplyMessage = "คุณพิมพ์ B";
-                    $replyData = new TextMessageBuilder($textReplyMessage);
-                    break;                                      
-                                                                                                                     
+			    $textMesage = new TextMessageBuilder($textReplyMessage)
+			    
+			$multiMessage =     new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);
+                        $replyData = $multiMessage; 
+                    break;
                 default:
-                    $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
-                    $replyData = new TextMessageBuilder($textReplyMessage);         
+                    $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
+			    $textMesage = new TextMessageBuilder($textReplyMessage)
+			    
+			$multiMessage =     new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);
+                        $replyData = $multiMessage; 
                     break;                                      
             }
+            break;
         default:
             $textReplyMessage = json_encode($events);
             break;  
