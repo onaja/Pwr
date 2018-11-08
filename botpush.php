@@ -50,13 +50,13 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
  
 // เชื่อมต่อกับ LINE Messaging API
 $httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
-$bot = new LINEBot($httpClient, array('e54a7a81744c49dc852707f8613c29a9' => LINE_MESSAGE_CHANNEL_SECRET));
+$bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
  
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
  
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-$events = json_decode($content, true);
+
    $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     
     $content = file_get_contents('php://input');
@@ -67,12 +67,16 @@ $events = json_decode($content, true);
     $arrayHeader[] = "Authorization: Bearer {$accessToken}";
     
     //รับข้อความจากผู้ใช้
-    $message = $arrayJson['events'][0]['message']['text'];
+    
     $typeMessage = $events['events'][0]['message']['type'];
     $replyToken = $events['events'][0]['replyToken'];
+    $message = $arrayJson['events'][0]['message']['text'];
     //รับ id ของผู้ใช้
     $id = $arrayJson['events'][0]['source']['userId'];    
     $strUrl = "https://api.line.me/v2/bot/message/reply";
+
+     
+     //ต่อmlab
     $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
     $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
     $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
@@ -114,30 +118,12 @@ $events = json_decode($content, true);
                     $textReplyMessage = "คุณพิมพ์ B";
                     $replyData = new TextMessageBuilder($textReplyMessage);
                     break;                                      
-               case "tm":
-                    $replyData = new TemplateMessageBuilder('Confirm Template',
-                        new ConfirmTemplateBuilder(
-                                'กรุณาเลือกว่าข้อความที่สอนบอท ใช่ หรือ ไม่',
-                                array(
-                                    new MessageTemplateActionBuilder(
-                                        'Yes',
-                                        'Text Yes'
-                                    ),
-                                    new MessageTemplateActionBuilder(
-                                        'No',
-                                        'Text NO'
-                                    )
-                                )
-                        )
-                    );
-                    break;                                                                                                                          
+                                                                                                                     
                 default:
                     $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
                     $replyData = new TextMessageBuilder($textReplyMessage);         
                     break;                                      
             }
-           
-      
         default:
             $textReplyMessage = json_encode($events);
             break;  
