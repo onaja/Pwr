@@ -57,7 +57,6 @@ $content = file_get_contents('php://input');
  
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
-
    $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     
     $content = file_get_contents('php://input');
@@ -80,7 +79,6 @@ $events = json_decode($content, true);
     $data = json_decode($json);
     $isData=sizeof($data);
     $count = 0;
-
  
            if (strpos($message, 'สอนบอท') !== false) {
                  if (strpos($message, 'สอนบอท') !== false) {
@@ -102,6 +100,8 @@ $events = json_decode($content, true);
                    'content' => $newData
                )
             );
+			}
+		}
                   
     switch ($typeMessage){
         case 'text':
@@ -142,15 +142,7 @@ $events = json_decode($content, true);
             $textReplyMessage = json_encode($events);
             break;  
     }
-
-
 $response = $bot->replyMessage($replyToken,$replyData);
-
-
-
-
-
-
  
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
