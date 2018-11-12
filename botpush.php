@@ -106,7 +106,12 @@ $content = file_get_contents('php://input');
                    'content' => $newData
                )
             );
-           
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+            $message = "A";
+
+          }
+        }
            
 $response = $bot->replyMessage($replyToken,$replyData);
  
