@@ -84,62 +84,7 @@ $content = file_get_contents('php://input');
     $isData=sizeof($data);
     $count = 0;
  
-           if (strpos($message, 'สอนบอท') !== false) {
-                 if (strpos($message, 'สอนบอท') !== false) {
-                    $x_tra = str_replace("สอนบอท","", $message);
-                    $pieces = explode("|", $x_tra);
-                    $_user=str_replace("[","",$pieces[0]);
-                    $_system=str_replace("]","",$pieces[1]);
-                     //Post New Data
-                    $newData = json_encode(
-                      array(
-                        'user' => $_user,
-                        'system'=> $_system
-                      )
-                    );
-                $opts = array(
-                   'http' => array(
-                   'method' => "POST",
-                   'header' => "Content-type: application/json",
-                   'content' => $newData
-               )
-            );
-			}
-		}
-                  
-   switch ($typeMessage){
-        case 'text':
-            switch ($message) {
-                case "A":
-                    $textReplyMessage = "คุณพิมพ์ A";
-		    $textMesage = new TextMessageBuilder($textReplyMessage)
-			    
-			$multiMessage =     new MultiMessageBuilder;
-                        $multiMessage->add($textMessage);
-                        $replyData = $multiMessage;            
-                    break;
-                case "B":
-                    $textReplyMessage = "คุณพิมพ์ B";
-			    $textMesage = new TextMessageBuilder($textReplyMessage)
-			    
-			$multiMessage =     new MultiMessageBuilder;
-                        $multiMessage->add($textMessage);
-                        $replyData = $multiMessage; 
-                    break;
-                default:
-                    $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
-			    $textMesage = new TextMessageBuilder($textReplyMessage)
-			    
-			$multiMessage =     new MultiMessageBuilder;
-                        $multiMessage->add($textMessage);
-                        $replyData = $multiMessage; 
-                    break;                                      
-            }
-            break;
-        default:
-            $textReplyMessage = json_encode($events);
-            break;  
-    }
+          
 $response = $bot->replyMessage($replyToken,$replyData);
  
 // Failed
