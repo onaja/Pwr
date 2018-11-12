@@ -112,7 +112,97 @@ $content = file_get_contents('php://input');
 
           }
         }
-           
+            else{
+            $message = "B";
+        }
+    switch ($typeMessage){
+        case 'text':
+            switch ($message) {
+                case "A":
+                    $textReplyMessage = "ขอบคุณที่สอนจ้า";
+                    $textMessage = new TextMessageBuilder($textReplyMessage);
+                    $stickerID = 41;
+                    $packageID = 2;
+                    $stickerMessage = new StickerMessageBuilder($packageID,$stickerID);
+                    
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage);
+                    $multiMessage->add($stickerMessage);
+                    $replyData = $multiMessage; 
+                    break;
+                case "B":
+                    
+                    if($isData >0){
+                       foreach($data as $rec){
+                        
+                        $textReplyMessage = $rec->system;
+                        $textMessage = new TextMessageBuilder($textReplyMessage);   
+                           
+                        $multiMessage = new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);      
+                        $replyData = $multiMessage; 
+
+                        
+                       }
+                    }
+                    else{
+                    
+                        $actionBuilder = array(
+                                new MessageTemplateActionBuilder(
+                                    'ใช่',// ข้อความแสดงในปุ่ม
+                                    'ใช่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                ),
+                                new MessageTemplateActionBuilder(
+                                    'ไม่',// ข้อความแสดงในปุ่ม
+                                    'ไม่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                ),                   
+                            );
+                        
+                    $imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';    
+                    $buttonMessage = new TemplateMessageBuilder('Button Template',
+                        new ButtonTemplateBuilder(
+                                'คำที่คุณพิมพ์หมายถึง ใช่ หรือ ไม่', // กำหนดหัวเรื่อง
+                                'กรุณาเลือก 1 ข้อ', // กำหนดรายละเอียด
+                                $imageUrl, // กำหนด url รุปภาพ
+                                $actionBuilder  // กำหนด action object
+                        )
+                    );  
+                    
+                    $textReplyMessage = "หากคำที่คุณหมายถึงไม่ใช่ทั้ง 'ใช่' และ 'ไม่' คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]";
+                    $textMessage = new TextMessageBuilder($textReplyMessage); 
+                        
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($buttonMessage);
+                    $multiMessage->add($textMessage);   
+                    $replyData = $multiMessage; 
+                    }
+                      
+                       
+                     
+                    break;      
+                    
+                default:
+                    
+                    $textReplyMessage = "ว่ายังไงนะครับ";
+                    $textMessage = new TextMessageBuilder($textReplyMessage);
+                    
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage);
+                    $replyData = $multiMessage;   
+                    break;                                      
+            }
+            break;
+        default:
+            $textReplyMessage = json_encode($events);
+            $replyData = new TextMessageBuilder($textReplyMessage);         
+            break;  
+    }
+}
+$response = $bot->replyMessage($replyToken,$replyData);
+if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+    return;
+}
 $response = $bot->replyMessage($replyToken,$replyData);
  
 // Failed
