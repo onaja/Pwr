@@ -84,7 +84,30 @@ $content = file_get_contents('php://input');
     $isData=sizeof($data);
     $count = 0;
  
-          
+     if (strpos($message, 'สอนบอท' !== false) {
+          if (strpos($messge, 'สอนบอท')  !== false) {
+              $x_tra = str_replace("สอนบอท","", $message);
+              $pieces = explode("|", $x_tra);
+              $_user=str_replace(","",$pieces[0]);
+              $_system=str_replace("]","",$pieces[1]);
+              
+              //Post New Data
+              $newData = json_encode(
+               array(
+                 'user' => $_user,
+                 'system'=> $_system
+                 )
+                );
+              
+              $opts = array(
+                 'http' => array(
+                 'method' => "POST",
+                 'header' => "Content-type: application/json",
+                   'content' => $newData
+               )
+            );
+           
+           
 $response = $bot->replyMessage($replyToken,$replyData);
  
 // Failed
