@@ -91,6 +91,162 @@ $content = file_get_contents('php://input');
     $isData2=sizeof($data2);
     $count = 0;
  
+      if (strpos($message, 'สอนบอท') !== false) {
+            $message = "A";
+        }
+        else if($isData > 0){
+            $message = "B";
+        }
+	else if($isData2 > 0){
+            $message = "C";
+        }
+   	 else if(strpos($message, 'เริ่มทดสอบ') !== false){
+	    $message = "D";
+	       }
+        switch ($message) {
+            case "A":
+          if (strpos($message, 'สอนบอท') !== false) {
+				 if (strpos($message, 'สอนบอท') !== false) {
+					$x_tra = str_replace("สอนบอท","", $message);
+					$pieces = explode("|", $x_tra);
+					$_user=str_replace("[","",$pieces[0]);
+					$_system=str_replace("]","",$pieces[1]);
+					 //Post New Data
+					$newData = json_encode(
+					  array(
+					'user' => $_user,
+					'system'=> $_system
+					  )
+					);
+				$opts = array(
+				   'http' => array(
+				   'method' => "POST",
+				   'header' => "Content-type: application/json",
+				   'content' => $newData
+				   )
+				   );
+					$context = stream_context_create($opts);
+					$returnValue = file_get_contents($url,false,$context);
+				   
+				  }
+				}
+         $textReplyMessage = "ขอบคุณที่สอนจ้า";
+                    $textMessage = new TextMessageBuilder($textReplyMessage);
+                    $stickerID = 41;
+                    $packageID = 2;
+                    $stickerMessage = new StickerMessageBuilder($packageID,$stickerID);
+                    
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage);
+                    $multiMessage->add($stickerMessage);
+                    $replyData = $multiMessage; 
+            break;
+					
+            case "B":
+                if($isData >0){
+                    foreach($data as $rec){
+                        $textReplyMessage = $rec->system;
+                        $textMessage = new TextMessageBuilder($textReplyMessage);   
+                           
+                        $multiMessage = new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);      
+                        $replyData = $multiMessage; 
+                        
+                       }
+                }
+				else{
+	  
+					$textReplyMessage = "คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]";
+					$textMessage = new TextMessageBuilder($textReplyMessage); 
+							
+					$multiMessage = new MultiMessageBuilder;
+					$multiMessage->add($textMessage);   
+					$replyData = $multiMessage; 
+				}
+						  
+		    break;      
+			case "C":
+			
+				if($isData2 >0){	
+					foreach($data2 as $rec2){
+						$count++;
+						$textReplyMessage = $rec2->system;
+						$textMessage = new TextMessageBuilder($textReplyMessage);   
+						$textReplyMessage2 = $count;
+						$textMessage2 = new TextMessageBuilder($textReplyMessage2); 
+						$multiMessage = new MultiMessageBuilder;
+						$multiMessage->add($textMessage);  
+						$multiMessage->add($textMessage2);  
+						$replyData = $multiMessage; 
+					}
+				}
+				
+				else{
+					$actionBuilder = array(
+					new MessageTemplateActionBuilder(
+						'ใช่',// ข้อความแสดงในปุ่ม
+						'ใช่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+						),
+						new MessageTemplateActionBuilder(
+						'ไม่',// ข้อความแสดงในปุ่ม
+						'ไม่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+						),                   
+						);
+					$imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';    
+					$buttonMessage = new TemplateMessageBuilder('Button Template',
+							new ButtonTemplateBuilder(
+							'คำที่คุณพิมพ์หมายถึง ใช่ หรือ ไม่', // กำหนดหัวเรื่อง
+							'กรุณาเลือก 1 ข้อ', // กำหนดรายละเอียด
+							$imageUrl, // กำหนด url รุปภาพ
+							$actionBuilder  // กำหนด action object
+						)
+						);  
+								
+					$multiMessage = new MultiMessageBuilder;
+					$multiMessage->add($buttonMessage);
+					$replyData = $multiMessage; 
+				}
+			
+		    break;
+			case "D":
+				$textReplyMessage = "คุณคิดว่า คุณสามารถทำให้ดีกว่านี้ได้";
+                $textMessage = new TextMessageBuilder($textReplyMessage); 
+                $multiMessage = new MultiMessageBuilder;
+                $multiMessage->add($textMessage);   
+                $replyData = $multiMessage; 
+		   break;
+        default:
+                    
+            $actionBuilder = array(
+                                new MessageTemplateActionBuilder(
+                                    'ใช่',// ข้อความแสดงในปุ่ม
+                                    'ใช่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                ),
+                                new MessageTemplateActionBuilder(
+                                    'ไม่',// ข้อความแสดงในปุ่ม
+                                    'ไม่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                ),                   
+                            );
+                        
+                    $imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';    
+                    $buttonMessage = new TemplateMessageBuilder('Button Template',
+                        new ButtonTemplateBuilder(
+                                'คำที่คุณพิมพ์หมายถึง ใช่ หรือ ไม่', // กำหนดหัวเรื่อง
+                                'กรุณาเลือก 1 ข้อ', // กำหนดรายละเอียด
+                                $imageUrl, // กำหนด url รุปภาพ
+                                $actionBuilder  // กำหนด action object
+                        )
+                    );  
+                    
+                    $textReplyMessage = "หากสิ่งที่คุณหมายถึงไม่ใช่ทั้ง 'ใช่' และ 'ไม่' คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]";
+                    $textMessage = new TextMessageBuilder($textReplyMessage); 
+                        
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($buttonMessage);
+                    $multiMessage->add($textMessage);   
+                    $replyData = $multiMessage; 
+            break;                                         
+	    }  
 $response = $bot->replyMessage($replyToken,$replyData);
  
 // Failed
