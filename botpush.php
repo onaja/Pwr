@@ -72,7 +72,8 @@ $content = file_get_contents('php://input');
     $replyToken = $events['events'][0]['replyToken'];
     $message = $arrayJson['events'][0]['message']['text'];
     //รับ id ของผู้ใช้
-    $id = $arrayJson['events'][0]['source']['userId'];    
+    $id = $arrayJson['events'][0]['source']['userId'];   
+
     $strUrl = "https://api.line.me/v2/bot/message/reply";
 
      
