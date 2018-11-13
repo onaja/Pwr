@@ -1,19 +1,8 @@
 <?php
-// กรณีต้องการตรวจสอบการแจ้ง error ให้เปิด 3 บรรทัดล่างนี้ให้ทำงาน กรณีไม่ ให้ comment ปิดไป
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
- 
-// include composer autoload
-require_once '../vendor/autoload.php';
- 
+require "vendor/autoload.php";
 // การตั้งเกี่ยวกับ bot
 require_once 'bot_settings.php';
- 
-// กรณีมีการเชื่อมต่อกับฐานข้อมูล
-//require_once("dbconnect.php");
- 
-///////////// ส่วนของการเรียกใช้งาน class ผ่าน namespace
+    
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
@@ -47,51 +36,44 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
- 
-// เชื่อมต่อกับ LINE Messaging API
-$httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
-$bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
- 
-// คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-$content = file_get_contents('php://input');
- 
-// แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-
-   $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
-    
+    // เชื่อมต่อกับ LINE Messaging API
+    $httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
+    $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
+    // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
     $content = file_get_contents('php://input');
+   
+    // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
     $events = json_decode($content, true);
-    
+    $accessToken = "Dp5cTXj8NHTYDiKoy/fQeb1zcbXljHoONSe4hCHXj1SIQ2FJCCH7qQXjnvfjxR21PWBquHunHE0HZtRL8Ezq9xf7cxTdeI/fKSKy9uNqwBIn3XicVdrptnh7SW4nD77FZeYQgrBWfpTFW9FG1EEujQdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     $arrayHeader = array();
     $arrayHeader[] = "Content-Type: application/json";
     $arrayHeader[] = "Authorization: Bearer {$accessToken}";
-    
-    //รับข้อความจากผู้ใช้
-    
-    $typeMessage = $events['events'][0]['message']['type'];
     $replyToken = $events['events'][0]['replyToken'];
-    $message = $arrayJson['events'][0]['message']['text'];
+    $typeMessage = $events['events'][0]['message']['type'];
+    //รับข้อความจากผู้ใช้
+    $message = $events['events'][0]['message']['text'];
+    $message = strtolower($message);
     //รับ id ของผู้ใช้
-    $id = $arrayJson['events'][0]['source']['userId'];   
-
+    $id = $events['events'][0]['source']['userId'];   
+    
     $strUrl = "https://api.line.me/v2/bot/message/reply";
-
-     
-     //ต่อmlab
-    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
-    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    //เชื่อมต่อ mlab
+    $api_key="7vVKdrk-Rg7qp8C5KFUrkQRWmAJaazgQ";
+	
+    //colletion พูดคุยทั่วไป
+    $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
-    $isData=sizeof($data);
-
-     //ต่อไปเก็บที่ ใช่กับไม่ใช่
-    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
-    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $isData = sizeof($data);
+    //collection คำตอบใช่ หรือ ไม่
+    $url2 = 'https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'';
+    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data2 = json_decode($json2);
-    $isData2=sizeof($data2);
-    $count = 0;
- 
-      if (strpos($message, 'สอนบอท') !== false) {
+    $isData2 = sizeof($data2);
+    
+	$count = 0;
+	
+        if (strpos($message, 'สอนบอท') !== false) {
             $message = "A";
         }
         else if($isData > 0){
@@ -102,10 +84,11 @@ $content = file_get_contents('php://input');
         }
    	 else if(strpos($message, 'เริ่มทดสอบ') !== false){
 	    $message = "D";
-	       }
+	}
         switch ($message) {
             case "A":
-          if (strpos($message, 'สอนบอท') !== false) {
+			
+				if (strpos($message, 'สอนบอท') !== false) {
 				 if (strpos($message, 'สอนบอท') !== false) {
 					$x_tra = str_replace("สอนบอท","", $message);
 					$pieces = explode("|", $x_tra);
@@ -130,7 +113,8 @@ $content = file_get_contents('php://input');
 				   
 				  }
 				}
-         $textReplyMessage = "ขอบคุณที่สอนจ้า";
+			
+                    $textReplyMessage = "ขอบคุณที่สอนจ้า";
                     $textMessage = new TextMessageBuilder($textReplyMessage);
                     $stickerID = 41;
                     $packageID = 2;
@@ -246,9 +230,14 @@ $content = file_get_contents('php://input');
                     $multiMessage->add($textMessage);   
                     $replyData = $multiMessage; 
             break;                                         
-	    }  
+	}
 $response = $bot->replyMessage($replyToken,$replyData);
- 
+if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+    return;
+}
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+ 
+   exit;
 ?>
