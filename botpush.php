@@ -82,6 +82,12 @@ $content = file_get_contents('php://input');
     $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData=sizeof($data);
+
+     //ต่อไปเก็บที่ ใช่กับไม่ใช่
+    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
+    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $data2 = json_decode($json2);
+    $isData2=sizeof($data2);
     $count = 0;
  
 $response = $bot->replyMessage($replyToken,$replyData);
