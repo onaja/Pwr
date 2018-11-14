@@ -44,7 +44,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
    
     // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
     $events = json_decode($content, true);
-    $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
+    $accessToken = "Dp5cTXj8NHTYDiKoy/fQeb1zcbXljHoONSe4hCHXj1SIQ2FJCCH7qQXjnvfjxR21PWBquHunHE0HZtRL8Ezq9xf7cxTdeI/fKSKy9uNqwBIn3XicVdrptnh7SW4nD77FZeYQgrBWfpTFW9FG1EEujQdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     $arrayHeader = array();
     $arrayHeader[] = "Content-Type: application/json";
     $arrayHeader[] = "Authorization: Bearer {$accessToken}";
@@ -58,16 +58,16 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
     
     $strUrl = "https://api.line.me/v2/bot/message/reply";
     //เชื่อมต่อ mlab
-    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
+    $api_key="7vVKdrk-Rg7qp8C5KFUrkQRWmAJaazgQ";
 	
     //colletion พูดคุยทั่วไป
-    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData = sizeof($data);
     //collection คำตอบใช่ หรือ ไม่
-    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
-    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url2 = 'https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'';
+    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data2 = json_decode($json2);
     $isData2 = sizeof($data2);
     
@@ -160,7 +160,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 						$textMessage2 = new TextMessageBuilder($textReplyMessage2); 
 						$multiMessage = new MultiMessageBuilder;
 						$multiMessage->add($textMessage);  
-						$multiMessage->add($textMessage2);   // แอด msg ใ้ตอบได้มากกว่า 1 ข้อความแต่ไม่เกิน 2
+						$multiMessage->add($textMessage2);  
 						$replyData = $multiMessage; 
 					}
 				}
@@ -238,7 +238,66 @@ if ($response->isSucceeded()) {
 }
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
- 
+ /*
+    if (strpos($message, 'สอนบอท') !== false) {
+         if (strpos($message, 'สอนบอท') !== false) {
+            $x_tra = str_replace("สอนบอท","", $message);
+            $pieces = explode("|", $x_tra);
+            $_user=str_replace("[","",$pieces[0]);
+            $_system=str_replace("]","",$pieces[1]);
+             //Post New Data
+            $newData = json_encode(
+              array(
+                'user' => $_user,
+                'system'=> $_system
+              )
+            );
+        $opts = array(
+           'http' => array(
+           'method' => "POST",
+           'header' => "Content-type: application/json",
+           'content' => $newData
+       )
+    );
+    $context = stream_context_create($opts);
+    $returnValue = file_get_contents($url,false,$context);
+    $arrayPostData['to'] = $id;
+    $arrayPostData = array();
+    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
+    $arrayPostData['messages'][0]['type'] = "text";
+    $arrayPostData['messages'][0]['text'] = 'ขอบคุณที่สอนจ้า';
+    $arrayPostData['messages'][1]['type'] = "sticker";
+    $arrayPostData['messages'][1]['packageId'] = "2";
+    $arrayPostData['messages'][1]['stickerId'] = "41";
+    replyMsg($arrayHeader,$arrayPostData);
+  
+  }
+}
+ else{
+  if($isData >0){
+   foreach($data as $rec){
+    $arrayPostData['to'] = $id;
+    $arrayPostData = array();
+    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
+    $arrayPostData['messages'][0]['type'] = "text";
+    $arrayPostData['messages'][0]['text'] = $rec->system;
+    replyMsg($arrayHeader,$arrayPostData);
+    
+   }
+  }else{
+    
+    $arrayPostData['to'] = $id;
+    $arrayPostData = array();
+    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
+    $arrayPostData['messages'][0]['type'] = "text";
+    $arrayPostData['messages'][0]['text'] = 'คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]';
+    $arrayPostData['messages'][1]['type'] = "text";
+    $arrayPostData['messages'][1]['text'] = $id;
+    replyMsg($arrayHeader,$arrayPostData);
+    
+  }
+}
+    */
 function replyMsg($arrayHeader,$arrayPostData){
         $strUrl = "https://api.line.me/v2/bot/message/reply";
         $ch = curl_init();
