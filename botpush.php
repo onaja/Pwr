@@ -44,30 +44,34 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
    
     // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
     $events = json_decode($content, true);
-    $accessToken = "Dp5cTXj8NHTYDiKoy/fQeb1zcbXljHoONSe4hCHXj1SIQ2FJCCH7qQXjnvfjxR21PWBquHunHE0HZtRL8Ezq9xf7cxTdeI/fKSKy9uNqwBIn3XicVdrptnh7SW4nD77FZeYQgrBWfpTFW9FG1EEujQdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
+    $accessToken = "mSI0zSW1eitEX5yg198VetksAc+gc3OjZgg6NQFQ0FWO1zZPCozJnWvEYoAPNgbl8Qke6WZkqT5yO8WhEmpwxmvSD0g/XqOX97c9CbiEIHXuEYWle/PDFyepyhQ16btAqmoXn1K2KTX4HgJDiSHavAdB04t89/1O/w1cDnyilFU=";//copy Channel access token ตอนที่ตั้งค่ามาใส่
     $arrayHeader = array();
     $arrayHeader[] = "Content-Type: application/json";
     $arrayHeader[] = "Authorization: Bearer {$accessToken}";
     $replyToken = $events['events'][0]['replyToken'];
     $typeMessage = $events['events'][0]['message']['type'];
+
     //รับข้อความจากผู้ใช้
     $message = $events['events'][0]['message']['text'];
     $message = strtolower($message);
+
     //รับ id ของผู้ใช้
     $id = $events['events'][0]['source']['userId'];   
     
     $strUrl = "https://api.line.me/v2/bot/message/reply";
+
     //เชื่อมต่อ mlab
-    $api_key="7vVKdrk-Rg7qp8C5KFUrkQRWmAJaazgQ";
+    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
 	
     //colletion พูดคุยทั่วไป
-    $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData = sizeof($data);
+
     //collection คำตอบใช่ หรือ ไม่
-    $url2 = 'https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'';
-    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
+    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data2 = json_decode($json2);
     $isData2 = sizeof($data2);
     
