@@ -122,11 +122,11 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
                     $textMessage = new TextMessageBuilder($textReplyMessage);
                     $stickerID = 41;
                     $packageID = 2;
-                    $stickerMessage = new StickerMessageBuilder($packageID,$stickerID);
+                    $stickerMessage = new StickerMessageBuilder($packageID,$stickerID); //ต้องมีทุกครั้ง 
                     
                     $multiMessage = new MultiMessageBuilder;
                     $multiMessage->add($textMessage);
-                    $multiMessage->add($stickerMessage);
+                    $multiMessage->add($stickerMessage); 
                     $replyData = $multiMessage; 
             break;
 					
@@ -145,7 +145,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 				else{
 	  
 					$textReplyMessage = "คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]";
-					$textMessage = new TextMessageBuilder($textReplyMessage); 
+					$textMessage = new TextMessageBuilder($textReplyMessage); // ต้องมีทุกครั้งเวลาสัง่งให้ตอบข้อความ
 							
 					$multiMessage = new MultiMessageBuilder;
 					$multiMessage->add($textMessage);   
@@ -180,7 +180,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 						'ไม่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
 						),                   
 						);
-					$imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';    
+					$imageUrl = '';    
 					$buttonMessage = new TemplateMessageBuilder('Button Template',
 							new ButtonTemplateBuilder(
 							'คำที่คุณพิมพ์หมายถึง ใช่ หรือ ไม่', // กำหนดหัวเรื่อง
