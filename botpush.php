@@ -160,7 +160,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 						$textMessage2 = new TextMessageBuilder($textReplyMessage2); 
 						$multiMessage = new MultiMessageBuilder;
 						$multiMessage->add($textMessage);  
-						$multiMessage->add($textMessage2);  
+						$multiMessage->add($textMessage2);   // แอด msg ใ้ตอบได้มากกว่า 1 ข้อความแต่ไม่เกิน 2
 						$replyData = $multiMessage; 
 					}
 				}
