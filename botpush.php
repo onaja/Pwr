@@ -58,8 +58,8 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
     
     $strUrl = "https://api.line.me/v2/bot/message/reply";
     //เชื่อมต่อ mlab
-    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
-	
+    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe"; //mlab
+	 
     //colletion พูดคุยทั่วไป
     $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
     $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
