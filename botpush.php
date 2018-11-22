@@ -238,66 +238,9 @@ if ($response->isSucceeded()) {
 }
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
- /*
-    if (strpos($message, 'สอนบอท') !== false) {
-         if (strpos($message, 'สอนบอท') !== false) {
-            $x_tra = str_replace("สอนบอท","", $message);
-            $pieces = explode("|", $x_tra);
-            $_user=str_replace("[","",$pieces[0]);
-            $_system=str_replace("]","",$pieces[1]);
-             //Post New Data
-            $newData = json_encode(
-              array(
-                'user' => $_user,
-                'system'=> $_system
-              )
-            );
-        $opts = array(
-           'http' => array(
-           'method' => "POST",
-           'header' => "Content-type: application/json",
-           'content' => $newData
-       )
-    );
-    $context = stream_context_create($opts);
-    $returnValue = file_get_contents($url,false,$context);
-    $arrayPostData['to'] = $id;
-    $arrayPostData = array();
-    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
-    $arrayPostData['messages'][0]['type'] = "text";
-    $arrayPostData['messages'][0]['text'] = 'ขอบคุณที่สอนจ้า';
-    $arrayPostData['messages'][1]['type'] = "sticker";
-    $arrayPostData['messages'][1]['packageId'] = "2";
-    $arrayPostData['messages'][1]['stickerId'] = "41";
-    replyMsg($arrayHeader,$arrayPostData);
-  
-  }
-}
- else{
-  if($isData >0){
-   foreach($data as $rec){
-    $arrayPostData['to'] = $id;
-    $arrayPostData = array();
-    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
-    $arrayPostData['messages'][0]['type'] = "text";
-    $arrayPostData['messages'][0]['text'] = $rec->system;
-    replyMsg($arrayHeader,$arrayPostData);
-    
-   }
-  }else{
-    
-    $arrayPostData['to'] = $id;
-    $arrayPostData = array();
-    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
-    $arrayPostData['messages'][0]['type'] = "text";
-    $arrayPostData['messages'][0]['text'] = 'คุณสามารถสอนให้ฉลาดได้เพียงพิมพ์: สอนบอท[คำถาม|คำตอบ]';
-    $arrayPostData['messages'][1]['type'] = "text";
-    $arrayPostData['messages'][1]['text'] = $id;
-    replyMsg($arrayHeader,$arrayPostData);
-    
-  }
-}
-    */
+
+
+
 function replyMsg($arrayHeader,$arrayPostData){
         $strUrl = "https://api.line.me/v2/bot/message/reply";
         $ch = curl_init();
