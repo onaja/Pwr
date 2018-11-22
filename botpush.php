@@ -215,18 +215,12 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 			
 			new PostbackTemplateActionBuilder(
            		 'ใช่', // ข้อความแสดงในปุ่ม
-            		http_build_query(array(
-               		 'action'=>'buy',
-               		 'item'=>100
-           		 )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+            
            		 'ใช่'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
         ),     
 			new PostbackTemplateActionBuilder(
            		 'ไม่', // ข้อความแสดงในปุ่ม
-            		http_build_query(array(
-               		 'action'=>'buy',
-               		 'item'=>100
-           		 )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+            		
            		 'ไม่'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
    	 ),      
 			
