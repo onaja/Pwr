@@ -61,12 +61,12 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
     $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe"; //mlab
 	 
     //colletion พูดคุยทั่วไป
-    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
+    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe.'';
     $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData = sizeof($data);
     //collectionคำตอบใช่ หรือ ไม่
-    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
+    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe.'';
     $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data2 = json_decode($json2);
     $isData2 = sizeof($data2);
