@@ -58,16 +58,16 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
     
     $strUrl = "https://api.line.me/v2/bot/message/push";
     //เชื่อมต่อ mlab
-    $api_key="7vVKdrk-Rg7qp8C5KFUrkQRWmAJaazgQ";
+    $api_key="e0C-QltQdKgdRg4eABS7RTrZ-fiRtPSe";
 	
     //colletion พูดคุยทั่วไป
-    $url = 'https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'';
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/bot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url = 'https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'';
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/linebot?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data = json_decode($json);
     $isData = sizeof($data);
     //collection คำตอบใช่ หรือ ไม่
-    $url2 = 'https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'';
-    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/rup_db/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
+    $url2 = 'https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'';
+    $json2 = file_get_contents('https://api.mlab.com/api/1/databases/pwr/collections/answer?apiKey='.$api_key.'&q={"user":"'.$message.'"}');
     $data2 = json_decode($json2);
     $isData2 = sizeof($data2);
     
