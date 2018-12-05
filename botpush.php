@@ -191,7 +191,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 						'ไม่' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
 						),                   
 						);
-					$imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';    
+					$imageUrl = 'https://www.picz.in.th/images/2018/10/23/kFKkru.jpg';  //picture   
 					$buttonMessage = new TemplateMessageBuilder('Button Template',
 							new ButtonTemplateBuilder(
 							'คำที่คุณพิมพ์หมายถึง ใช่ หรือ ไม่', // กำหนดหัวเรื่อง
