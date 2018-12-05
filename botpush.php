@@ -240,7 +240,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 				fclose($myfile);
 			}
 			
-			if($tmp[0] >= 3){			
+			if($tmp[0] >= 15){			
 				$myfile = fopen($fileName, "w");
 				fwrite($myfile, "");
 				
@@ -508,9 +508,9 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 		   $response = $bot->replyMessage($replyToken,$replyData);
             break;                                         
 	}
-if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-    return;
+		if ($response->isSucceeded()) {
+    		echo 'Succeeded!';
+   	 return;
 }
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
